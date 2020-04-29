@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: cab booking api
+  version: "1.0.0"
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /users/signup:
+    post:
+      summary: Signup
+      operationId: post-users-signup
+      responses:
+        '200':
+          description: Sign up success
+        '400':
+          description: User already exists.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                phone:
+                  type: string
+              required:
+                - email
+                - password
+                - phone
+  /user/login:
+    post:
+      summary: Login
+      operationId: post-user-login
+      responses:
+        '200':
+          description: Login success
+          headers:
+            Authorizartion:
+              schema:
+                type: string
+              description: Authorization token
+        '401':
+          description: Invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+  /user/nearByCabs:
+    get:
+      summary: Query near by cabs
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cab:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        numberPlate:
+                          type: string
+                        numberOfSeats:
+                          type: number
+                        location:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                            latitude:
+                              type: string
+                            longitude:
+                              type: string
+                        status:
+                          type: string
+                        __v:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                    distance:
+                      type: number
+        '400':
+          description: Current location not set
+      operationId: get-user-nearByCabs
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+        - schema:
+            type: boolean
+          in: query
+          name: ignorebBooked
+        - schema:
+            type: number
+          in: query
+          name: numberOfSeats
+  /cab/book:
+    post:
+      summary: Book Cab
+      operationId: post-cab-book
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  bookingID:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Booking confirmed
+                    bookingID: 5e93fc9de9395e22bc4dd7ab
+        '400':
+          description: No matching cabs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cabID:
+                  type: string
+                pickupLocation:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                destination:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                numberOfPassengers:
+                  type: number
+  /user/bookings:
+    get:
+      summary: Query user bookings
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    pickupLocation:
+                      type: object
+                      properties:
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                    destination:
+                      type: object
+                      properties:
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                    fare:
+                      type: number
+                    numberOfPassengers:
+                      type: number
+                    cabID:
+                      type: string
+                    status:
+                      type: string
+                    commuteStatus:
+                      type: string
+                    updatedAt:
+                      type: string
+                      format: date-time
+                    createdAt:
+                      type: string
+                      format: date-time
+                    bookingID:
+                      type: string
+      operationId: get-user-bookings
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+  /user/setCurrentLocation:
+    post:
+      summary: Set current location
+      operationId: post-user-setCurrentLocation
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  latitude: 40.7271
+                  longitude: -74.0054
+components:
+  schemas: {}

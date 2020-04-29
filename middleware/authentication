@@ -1,0 +1,22 @@
+const mongoose = require('mongoose')
+const User = mongoose.model('user');
+const {STATUS_MESSAGES, STATUS_CODES} = require('../utils/consts');
+
+module.exports = function (req, res, next) {
+    let token = req.header('Authorization');
+    User.findByToken(token).then((user) => {
+        if (!user) {
+            return res.status(STATUS_CODES.UNAUTHORIZED)
+                .send(STATUS_MESSAGES.UNAUTHORIZED);
+        }
+
+        req.user = user;
+        req.token = token;
+
+        next();
+    }).catch((e) => {
+            res.status(STATUS_CODES.UNAUTHORIZED)
+                .send(STATUS_MESSAGES.UNAUTHORIZED)
+        }
+    );
+};
