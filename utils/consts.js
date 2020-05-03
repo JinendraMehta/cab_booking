@@ -9,13 +9,17 @@ module.exports = {
         CANCELED: 'CANCELED',
     },
     ERROR_MESSAGES: {
+        AUTH: "Invalid auth token",
+        LAT_LONG: 'latitude and longitude must be numeric.',
         SIGN_UP: {
-            EMAIL_PASSWORD_MISSING: 'Email and password required.',
+            PHONE_MISSING: 'Phone number not provided.',
+            NAME_MISSING: 'Name not provided',
             EMAIL_MISSING: 'Email not provided',
             PASSWORD_MISSING: 'Password not provided',
             INVALID_EMAIL: 'Invalid email',
             INVALID_PASSWORD: 'Minimum password length is 10 characters and no spaces allowed.',
             INVALID_PHONE: 'Invalid phone number',
+            INVALID_NAME: 'Name must contain at least 3 character',
             USER_EXISTS: 'User already exists.'
         },
         LOGIN: {
