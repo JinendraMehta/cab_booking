@@ -1,95 +1,82 @@
 const express = require('express');
 const router = express.Router();
 const {
-    ERROR_MESSAGES,
-    SUCCESS_MESSAGES,
-    STATUS_CODES,
-    STATUS_MESSAGES,
-    BOOKING_STATUS,
-    CAB_STATUS,
-    COMMUTE_STATUS
+  ERROR_MESSAGES,
+  SUCCESS_MESSAGES,
+  STATUS_CODES,
+  STATUS_MESSAGES,
+  BOOKING_STATUS,
+  CAB_STATUS,
+  COMMUTE_STATUS
 } = require('../utils/consts');
-const mongoose = require('mongoose');
-const Cab = mongoose.model('cab');
-const Location = mongoose.model('location');
 const LatLon = require("../utils/LatLon/latlon-spherical");
-let ObjectID = require('mongodb').ObjectID;
 
+module.exports = (dbConnection) => {
+  const Users = require('../db/models/3_users')(dbConnection);
+  const authenticate = require('../middleware/authentication')(Users);
+  const Cabs = require('../db/models/2_cabs')(dbConnection);
 
-const authenticate = require('../middleware/authentication');
-
-router.post('/book', authenticate, (req, res) => {
+  router.post('/book', authenticate, (req, res) => {
 
     let {cabID, numberOfPassengers, pickupLocation, destination} = req.body;
-    let pickUp = new Location({
-        latitude: parseFloat(pickupLocation.latitude),
-        longitude: parseFloat(pickupLocation.latitude)
-    });
 
-    let dest = new Location({
-        latitude: parseFloat(destination.latitude),
-        longitude: parseFloat(destination.latitude)
-    })
+    if (
+      isNaN(parseFloat(pickupLocation.latitude)) ||
+      isNaN(parseFloat(pickupLocation.longitude)) ||
+      isNaN(parseFloat(destination.latitude)) ||
+      isNaN(parseFloat(destination.longitude))
+    ) {
 
-    if (!pickUp.isValid() || !dest.isValid()) {
-        res.status(STATUS_CODES.BAD_REQUEST)
-            .send(STATUS_MESSAGES.BAD_REQUEST);
-    }
+      res.status(STATUS_CODES.BAD_REQUEST)
+        .send(ERROR_MESSAGES.LAT_LONG);
+    } else {
+      Cabs.findByAvailabilityOrSeatsOrID(true, numberOfPassengers, cabID)
+        .then(cabs => {
+          let cab = cabs[0];
 
-    Cab.findOne({
-        _id: cabID,
-        numberOfSeats: {$gte: numberOfPassengers},
-        status: CAB_STATUS.AVAILABLE
-    })
-        .then(cab => {
-            if (!cab) {
-                return res.status(STATUS_CODES.BAD_REQUEST)
-                    .send(ERROR_MESSAGES.CABS.NO_CABS);
-            }
-            console.log(pickUp, dest)
-            let pickupPoint = new LatLon(pickUp.toObject());
-            let destinationPoint = new LatLon(dest.toObject());
+          if (!cab) {
+            return res.status(STATUS_CODES.BAD_REQUEST)
+              .send(ERROR_MESSAGES.CABS.NO_CABS);
+          }
+          let pickupPoint = new LatLon(pickupLocation.latitude,pickupLocation.longitude);
+          let destinationPoint = new LatLon(destination.latitude,destination.longitude);
 
-            let distance = pickupPoint.distanceTo(destinationPoint);
-            let fare = Math.ceil(distance * numberOfPassengers);
-            cab.status = CAB_STATUS.BOOKED;
-            let bookingID = new ObjectID();
+          let distance = pickupPoint.distanceTo(destinationPoint);
+          let fare = Math.ceil(distance * numberOfPassengers);
+          cab.status = CAB_STATUS.BOOKED;
 
-            cab.save().then(() => {
-                let booking = {
-                    _id: bookingID,
-                    pickupLocation: pickUp,
-                    destination: dest,
-                    fare: fare,
-                    numberOfPassengers: numberOfPassengers,
-                    cabID: cab._id,
-                    status: BOOKING_STATUS.CONFIRMED,
-                    commuteStatus: COMMUTE_STATUS.NOT_STARTED
-                };
+          cab.save(['status']).then(() => {
 
-                req.user.update({
-                    $push: {
-                        bookings: booking
-                    }
-                }, {safe: true, upsert: true}, (err, data) => {
-                    if (err) {
-                        res.status(STATUS_CODES.BAD_REQUEST)
-                            .send(STATUS_MESSAGES.BAD_REQUEST);
-                    } else {
-                        res.status(STATUS_CODES.OK).send({
-                            message: SUCCESS_MESSAGES.BOOKING.CONFIRMED,
-                            bookingID: bookingID,
-                        })
-                    }
-                });
-            }).catch(console.log)
+            req.user.createBooking(
+              {
+                pickup_latitude: pickupLocation.latitude,
+                pickup_longitude: pickupPoint.longitude,
+                destination_latitude: destinationPoint.latitude,
+                destination_longitude: destinationPoint.longitude,
+                user_id: req.user.id,
+                fare: fare,
+                status: BOOKING_STATUS.CONFIRMED,
+                number_of_passengers: numberOfPassengers,
+                commute_status: COMMUTE_STATUS.NOT_STARTED,
+                cab_id: cabID
+              }
+            ).then(bookingID => {
+              res.status(STATUS_CODES.OK).send({
+                message: SUCCESS_MESSAGES.BOOKING.CONFIRMED,
+                bookingID: bookingID,
+              })
+            });
+
+          })
         })
         .catch(err => {
-            console.log(err)
-            res.status(STATUS_CODES.BAD_REQUEST).send(STATUS_MESSAGES.BAD_REQUEST);
+          console.log(err);
+          res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
         })
+    }
 
-});
 
+  });
 
-module.exports = router;
+  return router
+};

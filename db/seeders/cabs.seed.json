@@ -1,0 +1,786 @@
+[
+  {
+    "status": "AVAILABLE",
+    "driver_id": 92,
+    "number_of_seats": 8,
+    "number_plate": "ANDARE",
+    "longitude": -73.9549,
+    "latitude": 40.769
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 76,
+    "number_of_seats": 2,
+    "number_plate": "1TWIN",
+    "longitude": -74.0345,
+    "latitude": 40.7267
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 16,
+    "number_of_seats": 8,
+    "number_plate": "11VROD",
+    "longitude": -73.9873,
+    "latitude": 40.7316
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 36,
+    "number_of_seats": 8,
+    "number_plate": "4SKNMC",
+    "longitude": -73.9776,
+    "latitude": 40.7588
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 34,
+    "number_of_seats": 2,
+    "number_plate": "7IRON6",
+    "longitude": -73.9722,
+    "latitude": 40.7594
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 61,
+    "number_of_seats": 6,
+    "number_plate": "FINALI",
+    "longitude": -74.0403,
+    "latitude": 40.7383
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 80,
+    "number_of_seats": 4,
+    "number_plate": "GOKEY",
+    "longitude": -73.9887,
+    "latitude": 40.7223
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 7,
+    "number_of_seats": 8,
+    "number_plate": "TLR",
+    "longitude": -73.979,
+    "latitude": 40.762
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 54,
+    "number_of_seats": 2,
+    "number_plate": "TRM",
+    "longitude": -73.996,
+    "latitude": 40.7524
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 44,
+    "number_of_seats": 4,
+    "number_plate": "G1DBE",
+    "longitude": -73.9846,
+    "latitude": 40.7575
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 88,
+    "number_of_seats": 4,
+    "number_plate": "UBPHD",
+    "longitude": -73.9869,
+    "latitude": 40.7256
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 65,
+    "number_of_seats": 4,
+    "number_plate": "CCNMO",
+    "longitude": -73.9684,
+    "latitude": 40.7591
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 23,
+    "number_of_seats": 8,
+    "number_plate": "CEF1A1",
+    "longitude": -73.9803,
+    "latitude": 40.7271
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 50,
+    "number_of_seats": 4,
+    "number_plate": "VSPA",
+    "longitude": -73.7896,
+    "latitude": 40.6463
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 55,
+    "number_of_seats": 6,
+    "number_plate": "WS28",
+    "longitude": -73.9167,
+    "latitude": 40.7564
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 96,
+    "number_of_seats": 2,
+    "number_plate": "DASH2",
+    "longitude": -73.9531,
+    "latitude": 40.7666
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 37,
+    "number_of_seats": 4,
+    "number_plate": "ELIE",
+    "longitude": -73.9761,
+    "latitude": 40.758
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 67,
+    "number_of_seats": 6,
+    "number_plate": "2CHARM",
+    "longitude": -73.9821,
+    "latitude": 40.7238
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 10,
+    "number_of_seats": 2,
+    "number_plate": "2TWINS",
+    "longitude": -74.0039,
+    "latitude": 40.7531
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 84,
+    "number_of_seats": 4,
+    "number_plate": "K2JFK",
+    "longitude": -74.0393,
+    "latitude": 40.7389
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 74,
+    "number_of_seats": 4,
+    "number_plate": "2002A",
+    "longitude": -73.9715,
+    "latitude": 40.7619
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 52,
+    "number_of_seats": 2,
+    "number_plate": "4LOU4",
+    "longitude": -74.0042,
+    "latitude": 40.753
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 93,
+    "number_of_seats": 2,
+    "number_plate": "4LUCK",
+    "longitude": -73.9531,
+    "latitude": 40.6561
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 9,
+    "number_of_seats": 6,
+    "number_plate": "77OH7",
+    "longitude": -73.9844,
+    "latitude": 40.725
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 51,
+    "number_of_seats": 2,
+    "number_plate": "ML350",
+    "longitude": -74.1783,
+    "latitude": 40.695
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 29,
+    "number_of_seats": 6,
+    "number_plate": "MMFP",
+    "longitude": -74.1578,
+    "latitude": 40.9859
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 32,
+    "number_of_seats": 6,
+    "number_plate": "MOYER",
+    "longitude": -74.1814,
+    "latitude": 40.6879
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 94,
+    "number_of_seats": 4,
+    "number_plate": "NIPA",
+    "longitude": -74.1816,
+    "latitude": 40.6878
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 6,
+    "number_of_seats": 2,
+    "number_plate": "NYVP2",
+    "longitude": -73.9974,
+    "latitude": 40.7234
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 5,
+    "number_of_seats": 6,
+    "number_plate": "NYY347",
+    "longitude": -73.99,
+    "latitude": 40.7336
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 8,
+    "number_of_seats": 6,
+    "number_plate": "PR1999",
+    "longitude": -74.0094,
+    "latitude": 40.7141
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 33,
+    "number_of_seats": 4,
+    "number_plate": "PURR",
+    "longitude": -73.9709,
+    "latitude": 40.7893
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 79,
+    "number_of_seats": 4,
+    "number_plate": "AACVI",
+    "longitude": -73.991,
+    "latitude": 40.7747
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 56,
+    "number_of_seats": 6,
+    "number_plate": "ABL34",
+    "longitude": -73.9876,
+    "latitude": 40.7689
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 89,
+    "number_of_seats": 4,
+    "number_plate": "SJPCADET",
+    "longitude": -74.0149,
+    "latitude": 40.7744
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 30,
+    "number_of_seats": 2,
+    "number_plate": "SKINSCHL",
+    "longitude": -73.9974,
+    "latitude": 40.7393
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 87,
+    "number_of_seats": 6,
+    "number_plate": "SKOERTS",
+    "longitude": -73.9752,
+    "latitude": 40.7776
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 31,
+    "number_of_seats": 2,
+    "number_plate": "EZEL07",
+    "longitude": -73.7829,
+    "latitude": 40.6483
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 47,
+    "number_of_seats": 8,
+    "number_plate": "SLOVE",
+    "longitude": -74.1782,
+    "latitude": 40.6907
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 20,
+    "number_of_seats": 6,
+    "number_plate": "SMOVADO",
+    "longitude": -73.9875,
+    "latitude": 40.7217
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 12,
+    "number_of_seats": 4,
+    "number_plate": "SNIK613",
+    "longitude": -73.9632,
+    "latitude": 40.7651
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 62,
+    "number_of_seats": 8,
+    "number_plate": "ALL4RISA",
+    "longitude": -73.9985,
+    "latitude": 40.7437
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 43,
+    "number_of_seats": 4,
+    "number_plate": "SONIDO1",
+    "longitude": -73.978,
+    "latitude": 40.7605
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 77,
+    "number_of_seats": 6,
+    "number_plate": "ALWL",
+    "longitude": -74.0301,
+    "latitude": 40.743
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 3,
+    "number_of_seats": 2,
+    "number_plate": "AMTF168",
+    "longitude": -74.0301,
+    "latitude": 40.743
+  },
+  {
+    "status": "AVAILABLE",
+    "number_of_seats": 8,
+    "number_plate": "SPYGURL",
+    "longitude": -74.0371,
+    "latitude": 40.7423,
+    "driver_id": 21
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 49,
+    "number_of_seats": 8,
+    "number_plate": "FEARJAH",
+    "longitude": -74.0037,
+    "latitude": 40.7236
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 58,
+    "number_of_seats": 4,
+    "number_plate": "ARMYNG",
+    "longitude": -73.9527,
+    "latitude": 40.7723
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 11,
+    "number_of_seats": 4,
+    "number_plate": "FLASHBK2",
+    "longitude": -73.9862,
+    "latitude": 40.7574
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 91,
+    "number_of_seats": 2,
+    "number_plate": "FORDPOWR",
+    "longitude": -73.9504,
+    "latitude": 40.7838
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 85,
+    "number_of_seats": 2,
+    "number_plate": "A75",
+    "longitude": -73.9871,
+    "latitude": 40.7711
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 48,
+    "number_of_seats": 6,
+    "number_plate": "A752",
+    "longitude": -73.9726,
+    "latitude": 40.7571
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 57,
+    "number_of_seats": 8,
+    "number_plate": "BABYEVO",
+    "longitude": -73.9854,
+    "latitude": 40.7442
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 38,
+    "number_of_seats": 8,
+    "number_plate": "F1LEONE",
+    "longitude": -74.0144,
+    "latitude": 40.7166
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 72,
+    "number_of_seats": 8,
+    "number_plate": "BAM641",
+    "longitude": -73.9703,
+    "latitude": 40.7507
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 22,
+    "number_of_seats": 2,
+    "number_plate": "TCAP",
+    "longitude": -73.9979,
+    "latitude": 40.7337
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 45,
+    "number_of_seats": 8,
+    "number_plate": "TECHNK",
+    "longitude": -74.0111,
+    "latitude": 40.7236
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 60,
+    "number_of_seats": 6,
+    "number_plate": "BELCOO",
+    "longitude": -74.0464,
+    "latitude": 40.7151
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 24,
+    "number_of_seats": 4,
+    "number_plate": "BENNICK",
+    "longitude": -73.9588,
+    "latitude": 40.7701
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 35,
+    "number_of_seats": 2,
+    "number_plate": "GOAUBRN",
+    "longitude": -73.9142,
+    "latitude": 40.86
+  },
+  {
+    "status": "AVAILABLE",
+    "number_of_seats": 8,
+    "number_plate": "TLUVSZ",
+    "longitude": -73.9729,
+    "latitude": 40.7555,
+    "driver_id": 1
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 13,
+    "number_of_seats": 2,
+    "number_plate": "GPASLV",
+    "longitude": -74.0355,
+    "latitude": 40.7249
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 59,
+    "number_of_seats": 2,
+    "number_plate": "TOOHAPPY",
+    "longitude": -74.157,
+    "latitude": 40.6193
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 14,
+    "number_of_seats": 8,
+    "number_plate": "TRACKER6",
+    "longitude": -73.978,
+    "latitude": 40.7753
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 27,
+    "number_of_seats": 6,
+    "number_plate": "GTA1989",
+    "longitude": -73.9545,
+    "latitude": 40.7204
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 15,
+    "number_of_seats": 2,
+    "number_plate": "TTRBO7",
+    "longitude": -73.9595,
+    "latitude": 40.7772
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 25,
+    "number_of_seats": 6,
+    "number_plate": "BPILLA",
+    "longitude": -74.082,
+    "latitude": 40.7651
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 90,
+    "number_of_seats": 8,
+    "number_plate": "TWICKS",
+    "longitude": -73.9879,
+    "latitude": 40.74
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 66,
+    "number_of_seats": 4,
+    "number_plate": "CAELA",
+    "longitude": -73.9568,
+    "latitude": 40.7741
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 42,
+    "number_of_seats": 8,
+    "number_plate": "UTOG134",
+    "longitude": -73.9944,
+    "latitude": 40.7599
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 39,
+    "number_of_seats": 6,
+    "number_plate": "HI5NY",
+    "longitude": -74.0039,
+    "latitude": 40.7531
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 68,
+    "number_of_seats": 4,
+    "number_plate": "CAMLOT13",
+    "longitude": -73.9623,
+    "latitude": 40.7791
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 17,
+    "number_of_seats": 2,
+    "number_plate": "CAMLOT14",
+    "longitude": -74.0033,
+    "latitude": 40.7382
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 28,
+    "number_of_seats": 4,
+    "number_plate": "VALDIZON",
+    "longitude": -73.9989,
+    "latitude": 40.7391
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 86,
+    "number_of_seats": 2,
+    "number_plate": "VEENDAM",
+    "longitude": -73.982,
+    "latitude": 40.7806
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 18,
+    "number_of_seats": 6,
+    "number_plate": "VERGASER",
+    "longitude": -73.9863,
+    "latitude": 40.7322
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 71,
+    "number_of_seats": 6,
+    "number_plate": "HOTGTR",
+    "longitude": -73.966,
+    "latitude": 40.7703
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 70,
+    "number_of_seats": 4,
+    "number_plate": "CCCNY",
+    "longitude": -74.0018,
+    "latitude": 40.7221
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 40,
+    "number_of_seats": 2,
+    "number_plate": "CEYLON1",
+    "longitude": -73.9895,
+    "latitude": 40.7588
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 53,
+    "number_of_seats": 6,
+    "number_plate": "VRAJ",
+    "longitude": -73.9656,
+    "latitude": 40.7677
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 41,
+    "number_of_seats": 2,
+    "number_plate": "HYEVLCTY",
+    "longitude": -74.0076,
+    "latitude": 40.7404
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 64,
+    "number_of_seats": 4,
+    "number_plate": "CKG",
+    "longitude": -73.9599,
+    "latitude": 40.7679
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 78,
+    "number_of_seats": 6,
+    "number_plate": "ILVYRKES",
+    "longitude": -73.9852,
+    "latitude": 40.7694
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 98,
+    "number_of_seats": 2,
+    "number_plate": "IMSPRTCS",
+    "longitude": -73.9546,
+    "latitude": 40.7858
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 83,
+    "number_of_seats": 6,
+    "number_plate": "COOLMYK",
+    "longitude": -73.9491,
+    "latitude": 40.7742
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 75,
+    "number_of_seats": 2,
+    "number_plate": "COYOTEHP",
+    "longitude": -73.95,
+    "latitude": 40.7703
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 2,
+    "number_of_seats": 2,
+    "number_plate": "CULTR",
+    "longitude": -73.9997,
+    "latitude": 40.7614
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 63,
+    "number_of_seats": 2,
+    "number_plate": "JAGSS100",
+    "longitude": -73.9749,
+    "latitude": 40.793
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 69,
+    "number_of_seats": 4,
+    "number_plate": "XTOPHERX",
+    "longitude": -73.9442,
+    "latitude": 40.7231
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 97,
+    "number_of_seats": 4,
+    "number_plate": "XXFJXX",
+    "longitude": -73.9545,
+    "latitude": 40.7874
+  },
+  {
+    "status": "BOOKED",
+    "number_of_seats": 8,
+    "number_plate": "JAZZ4CB",
+    "longitude": -73.9812,
+    "latitude": 40.7689,
+    "driver_id": 81
+  },
+  {
+    "status": "BOOKED",
+    "number_of_seats": 6,
+    "number_plate": "DANYJETS",
+    "longitude": -73.9557,
+    "latitude": 40.7789,
+    "driver_id": 19
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 73,
+    "number_of_seats": 4,
+    "number_plate": "YUHAN1",
+    "longitude": -74.0054,
+    "latitude": 40.7271
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 95,
+    "number_of_seats": 6,
+    "number_plate": "JGG1",
+    "longitude": -73.973,
+    "latitude": 40.7877
+  },
+  {
+    "status": "BOOKED",
+    "driver_id": 82,
+    "number_of_seats": 8,
+    "number_plate": "JISJR",
+    "longitude": -74.0092,
+    "latitude": 40.7255
+  },
+  {
+    "status": "BOOKED",
+    "number_of_seats": 2,
+    "number_plate": "DERJAGER",
+    "longitude": -73.9723,
+    "latitude": 40.7653,
+    "driver_id": 46
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 26,
+    "number_of_seats": 8,
+    "number_plate": "JML28",
+    "longitude": -73.9769,
+    "latitude": 40.7644
+  },
+  {
+    "status": "AVAILABLE",
+    "driver_id": 4,
+    "number_of_seats": 6,
+    "number_plate": "DINOGT",
+    "longitude": -73.9532,
+    "latitude": 40.7726
+  }
+]

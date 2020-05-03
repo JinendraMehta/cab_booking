@@ -42,11 +42,10 @@ class LatLonSpherical {
      * @example
      *   import LatLon from '/js/geodesy/latlon-spherical.js';
      *   const p = new LatLon(52.205, 0.119);
-     * @param location
+     * @param lat
+     * @param lon
      */
-    constructor(location) {
-        let lat = location.latitude;
-        let lon = location.longitude;
+    constructor(lat,lon) {
 
         if (isNaN(lat)) throw new TypeError(`invalid lat ‘${lat}’`);
         if (isNaN(lon)) throw new TypeError(`invalid lon ‘${lon}’`);
