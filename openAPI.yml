@@ -1,7 +1,8 @@
+# TODO update responses
 openapi: 3.0.0
 info:
   title: cab booking api
-  version: "1.0.0"
+  version: 1.0.0
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -30,9 +31,11 @@ paths:
                 phone:
                   type: string
               required:
+                - name
                 - email
                 - password
                 - phone
+      description: sign up user
   /user/login:
     post:
       summary: Login
@@ -60,7 +63,8 @@ paths:
               required:
                 - email
                 - password
-  /user/nearByCabs:
+      description: login user
+  /user/cabs/near-by:
     get:
       summary: Query near by cabs
       tags: []
@@ -115,11 +119,13 @@ paths:
         - schema:
             type: boolean
           in: query
-          name: ignorebBooked
+          name: ignore_booked
         - schema:
             type: number
           in: query
-          name: numberOfSeats
+          name: number_of_seats
+      description: get near by cabs
+    parameters: []
   /cab/book:
     post:
       summary: Book Cab
@@ -167,6 +173,7 @@ paths:
                       type: number
                 numberOfPassengers:
                   type: number
+      description: book the specified cab
   /user/bookings:
     get:
       summary: Query user bookings
@@ -219,7 +226,8 @@ paths:
             type: string
           in: header
           name: Authorization
-  /user/setCurrentLocation:
+      description: get bookings
+  /user/location/current:
     post:
       summary: Set current location
       operationId: post-user-setCurrentLocation
@@ -241,5 +249,7 @@ paths:
                 value:
                   latitude: 40.7271
                   longitude: -74.0054
+      description: set current location
+    parameters: []
 components:
   schemas: {}
