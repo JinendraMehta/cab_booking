@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {ERROR_MESSAGES, SUCCESS_MESSAGES, STATUS_CODES, STATUS_MESSAGES} = require('../utils/consts');
+const rateLimitLogin = require('../middleware/rateLimiter')('login');
+const rateLimitSignUp = require('../middleware/rateLimiter')('sign up');
 
 module.exports = (dbConnection) => {
   const Users = require('../db/models/3_users')(dbConnection);
   const authenticate = require('../middleware/authentication')(Users);
 
-  router.post('/signup', (req, res, next) => {
+  router.post('/signup', rateLimitSignUp, (req, res, next) => {
 
     const {email, password, name, phone} = req.body;
     let user = new Users(email, password, name, phone);
@@ -25,7 +27,7 @@ module.exports = (dbConnection) => {
     }
   });
 
-  router.post('/login', (req, res) => {
+  router.post('/login', rateLimitLogin, (req, res) => {
     const {email, password} = req.body;
 
     Users.findByCredentials(email, password).then((user) => {
