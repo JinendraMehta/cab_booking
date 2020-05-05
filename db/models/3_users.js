@@ -66,7 +66,7 @@ module.exports = (dbConnection) => {
       let queryStatement = '';
 
       if (useEmail && usePhone)
-        queryStatement = `select * from ${Users.tableName} where phone = "${phone}" and email = "${email}"`;
+        queryStatement = `select * from ${Users.tableName} where phone = "${phone}" or email = "${email}"`;
 
       else if (useEmail)
         queryStatement = `select * from ${Users.tableName} where email = "${email}"`;
@@ -153,7 +153,7 @@ module.exports = (dbConnection) => {
     }
 
     saveNew() {
-      return Users.findByEmailOrPhone(this.email, this.password).then(existingUsers => {
+      return Users.findByEmailOrPhone(this.email, this.phone).then(existingUsers => {
         if (existingUsers.length > 0) {
           return Promise.reject({message: ERROR_MESSAGES.SIGN_UP.USER_EXISTS});
         } else {
