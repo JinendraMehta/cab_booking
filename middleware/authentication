@@ -6,7 +6,6 @@ module.exports = (Users) => {
     let token = req.header('Authorization');
 
     Users.findByToken(token).then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(STATUS_CODES.UNAUTHORIZED)
           .send(STATUS_MESSAGES.UNAUTHORIZED);
