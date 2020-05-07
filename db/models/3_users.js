@@ -90,7 +90,10 @@ module.exports = (dbConnection) => {
       if (!email)
         errorMessage += ERROR_MESSAGES.SIGN_UP.EMAIL_MISSING + '\n';
       else if (!isEmail(email))
-        errorMessage += ERROR_MESSAGES.SIGN_UP.INVALID_EMAIL + '\n'
+        errorMessage += ERROR_MESSAGES.SIGN_UP.INVALID_EMAIL + '\n';
+
+      if(!password)
+        errorMessage += ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING
 
       if (errorMessage) {
         return Promise.reject({message: errorMessage});
