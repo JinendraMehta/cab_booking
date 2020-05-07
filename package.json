@@ -1,13 +1,13 @@
 {
   "name": "cab_booking",
   "version": "1.0.0",
-  "description": "Create a new .env file and copy all variables from example.env file into this file and make changes accordingly.",
+  "description": "API for cab booking service",
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jinendra Mehta",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
