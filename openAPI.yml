@@ -1,4 +1,3 @@
-# TODO update responses
 openapi: 3.0.0
 info:
   title: cab booking api
@@ -6,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /users/signup:
+  /users/sign-up:
     post:
       summary: Signup
       operationId: post-users-signup
@@ -14,7 +13,11 @@ paths:
         '200':
           description: Sign up success
         '400':
-          description: User already exists.
+          description: |-
+            Invalid email
+            Invalid phone number
+            Name must contain at least 3 character
+            Minimum password length is 10 characters and no spaces allowed.
       requestBody:
         content:
           application/json:
@@ -35,8 +38,22 @@ paths:
                 - email
                 - password
                 - phone
-      description: sign up user
-  /user/login:
+            examples:
+              invalid:
+                value:
+                  email: testgmail.com
+                  password: '3949'
+                  name: as
+                  phone: sdf34
+              valid:
+                value:
+                  email: test2@gmail.com
+                  password: '1234567890'
+                  name: Name
+                  phone: '12345678'
+      description: sign up new user
+    parameters: []
+  /users/login:
     post:
       summary: Login
       operationId: post-user-login
@@ -48,6 +65,8 @@ paths:
               schema:
                 type: string
               description: Authorization token
+        '400':
+          description: Password not provided
         '401':
           description: Invalid credentials
       requestBody:
@@ -63,8 +82,17 @@ paths:
               required:
                 - email
                 - password
+            examples:
+              invalid:
+                value:
+                  email: test2@gmail.com
+              valid:
+                value:
+                  email: test2@gmail.com
+                  password: '1234567890'
       description: login user
-  /user/cabs/near-by:
+    parameters: []
+  /cabs/near-by:
     get:
       summary: Query near by cabs
       tags: []
@@ -81,31 +109,20 @@ paths:
                     cab:
                       type: object
                       properties:
-                        _id:
-                          type: string
-                        numberPlate:
-                          type: string
-                        numberOfSeats:
-                          type: number
-                        location:
-                          type: object
-                          properties:
-                            _id:
-                              type: string
-                            latitude:
-                              type: string
-                            longitude:
-                              type: string
                         status:
                           type: string
-                        __v:
+                        driver_id:
+                          type: number
+                        number_plate:
                           type: string
-                        createdAt:
+                        number_of_seats:
+                          type: number
+                        longitude:
                           type: string
-                          format: date-time
-                        updatedAt:
+                        latitude:
                           type: string
-                          format: date-time
+                        id:
+                          type: number
                     distance:
                       type: number
         '400':
@@ -126,7 +143,7 @@ paths:
           name: number_of_seats
       description: get near by cabs
     parameters: []
-  /cab/book:
+  /cabs/book:
     post:
       summary: Book Cab
       operationId: post-cab-book
@@ -173,11 +190,30 @@ paths:
                       type: number
                 numberOfPassengers:
                   type: number
+            examples:
+              valid:
+                value:
+                  cabID: 81
+                  pickupLocation:
+                    latitude: 40.7271
+                    longitude: -74.0054
+                  destination:
+                    latitude: 40.7271
+                    longitude: -72.0054
+                  numberOfPassengers: 2
       description: book the specified cab
-  /user/bookings:
+    parameters: []
+  /users/current/bookings:
     get:
       summary: Query user bookings
       tags: []
+      operationId: get-user-bookings
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      description: get bookings
       responses:
         '200':
           description: OK
@@ -188,52 +224,58 @@ paths:
                 items:
                   type: object
                   properties:
-                    pickupLocation:
-                      type: object
-                      properties:
-                        latitude:
-                          type: number
-                        longitude:
-                          type: number
-                    destination:
-                      type: object
-                      properties:
-                        latitude:
-                          type: number
-                        longitude:
-                          type: number
-                    fare:
+                    id:
                       type: number
-                    numberOfPassengers:
-                      type: number
-                    cabID:
+                    pickup_latitude:
                       type: string
+                    pickup_longitude:
+                      type: string
+                    destination_latitude:
+                      type: string
+                    destination_longitude:
+                      type: string
+                    user_id:
+                      type: number
+                    fare:
+                      type: string
+                    number_of_passengers:
+                      type: number
                     status:
                       type: string
-                    commuteStatus:
+                    commute_status:
                       type: string
-                    updatedAt:
+                    cab_id:
                       type: string
-                      format: date-time
-                    createdAt:
+                    created_at:
                       type: string
-                      format: date-time
-                    bookingID:
+                    updated_at:
                       type: string
-      operationId: get-user-bookings
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-      description: get bookings
-  /user/location/current:
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      pickup_latitude: '40.7271'
+                      pickup_longitude: '-74.0054'
+                      destination_latitude: '40.7271'
+                      destination_longitude: '-72.0054'
+                      user_id: 2
+                      fare: 337059
+                      number_of_passengers: 2
+                      status: CONFIRMED
+                      commute_status: NOT_STARTED
+                      cab_id: 81
+                      created_at: '2020-05-07T15:58:55.000Z'
+                      updated_at: null
+    parameters: []
+  /users/current/location:
     post:
       summary: Set current location
       operationId: post-user-setCurrentLocation
       responses:
         '200':
           description: OK
+        '400':
+          description: latitude and longitude must be provided and must be numeric.
       requestBody:
         content:
           application/json:
@@ -245,10 +287,13 @@ paths:
                 longitude:
                   type: number
             examples:
-              example-1:
+              valid:
                 value:
                   latitude: 40.7271
                   longitude: -74.0054
+              invalid:
+                value:
+                  latitude: 40.7271
       description: set current location
     parameters: []
 components:

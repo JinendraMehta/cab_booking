@@ -8,7 +8,7 @@ module.exports = (dbConnection) => {
   const Users = require('../db/models/3_users')(dbConnection);
   const authenticate = require('../middleware/authentication')(Users);
 
-  router.post('/signup', rateLimitSignUp, (req, res, next) => {
+  router.post('/sign-up', rateLimitSignUp, (req, res, next) => {
 
     const {email, password, name, phone} = req.body;
     let user = new Users(email, password, name, phone);
@@ -45,16 +45,16 @@ module.exports = (dbConnection) => {
           res.status(STATUS_CODES.BAD_REQUEST).send(ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS);
           break;
         default:
-          res.sendStatus(STATUS_CODES.BAD_REQUEST);
+          res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
       }
     });
   });
 
-  router.post('/location/current', authenticate, (req, res) => {
+  router.post('/current/location', authenticate, (req, res) => {
     let {latitude, longitude} = req.body;
 
     if(isNaN(latitude) || isNaN(longitude)) {
-      return res.status(STATUS_CODES.BAD_REQUEST)(ERROR_MESSAGES.LAT_LONG);
+      return res.status(STATUS_CODES.BAD_REQUEST).send(ERROR_MESSAGES.LAT_LONG);
     }
     req.user.latitude = latitude;
     req.user.longitude = longitude;
@@ -69,30 +69,7 @@ module.exports = (dbConnection) => {
     })
   });
 
-  router.get('/cabs/near-by', authenticate, (req, res) => {
-    let {ignore_booked, number_of_seats} = req.query;
-    let numberOfSeats = parseInt(number_of_seats);
-    let ignoreBooked = ignore_booked === 'true';
-
-    if (isNaN(numberOfSeats)) {
-      return res.status(STATUS_CODES.BAD_REQUEST)
-        .send(STATUS_MESSAGES.BAD_REQUEST);
-    }
-
-    if (!req.user.latitude || !req.user.longitude) {
-      return res.status(STATUS_CODES.BAD_REQUEST)
-        .send(ERROR_MESSAGES.CABS.NEARBY.NO_REFERENCE)
-    }
-
-    req.user.getNearbyCabs(ignoreBooked, numberOfSeats).then(cabs => {
-      res.send(cabs);
-    }).catch(err => {
-      res.status(STATUS_CODES.BAD_REQUEST)
-        .send(err.message || STATUS_MESSAGES.BAD_REQUEST);
-    });
-  });
-
-  router.get('/bookings', authenticate, (req, res) => {
+  router.get('/current/bookings', authenticate, (req, res) => {
     req.user.getBookings().then(bookings => {
       res.status(STATUS_CODES.OK)
         .send(bookings)

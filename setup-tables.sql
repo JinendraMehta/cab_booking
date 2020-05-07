@@ -1,12 +1,3 @@
-# create table locations
-# (
-#     id         INT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
-#     latitude   VARCHAR(10) NOT NULL,
-#     longitude  VARCHAR(10) NOT NULL,
-#     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-#     updated_at DATETIME    NULL on UPDATE CURRENT_TIMESTAMP,
-#     UNIQUE KEY latitude_longitude (latitude, longitude)
-# );
 
 create table drivers
 (

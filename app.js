@@ -60,8 +60,8 @@ fs.readdirSync(seeds)
 let userRouter = require('./routes/user')(dbConnection.promise());
 let cabRouter = require('./routes/cab')(dbConnection.promise());
 
-app.use('/user', userRouter);
-app.use('/cab', cabRouter);
+app.use('/users', userRouter);
+app.use('/cabs', cabRouter);
 
 /**
  * Catch 404 routes
@@ -73,7 +73,6 @@ app.use(function (req, res, next) {
 });
 
 process.on('unhandledRejection', error => {
-  // Will print "unhandledRejection err is not defined"
   console.log('unhandledRejection', error);
 });
 

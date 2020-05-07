@@ -38,8 +38,8 @@ module.exports = (dbConnection) => {
             return res.status(STATUS_CODES.BAD_REQUEST)
               .send(ERROR_MESSAGES.CABS.NO_CABS);
           }
-          let pickupPoint = new LatLon(pickupLocation.latitude,pickupLocation.longitude);
-          let destinationPoint = new LatLon(destination.latitude,destination.longitude);
+          let pickupPoint = new LatLon(pickupLocation.latitude, pickupLocation.longitude);
+          let destinationPoint = new LatLon(destination.latitude, destination.longitude);
 
           let distance = pickupPoint.distanceTo(destinationPoint);
           let fare = Math.ceil(distance * numberOfPassengers);
@@ -76,6 +76,30 @@ module.exports = (dbConnection) => {
     }
 
 
+  });
+
+  router.get('/near-by', authenticate, (req, res) => {
+    let {ignore_booked, number_of_seats} = req.query;
+    let numberOfSeats = parseInt(number_of_seats);
+    let ignoreBooked = ignore_booked === 'true';
+
+    if (isNaN(numberOfSeats)&& number_of_seats !== undefined) {
+      return res.status(STATUS_CODES.BAD_REQUEST)
+        .send(STATUS_MESSAGES.BAD_REQUEST);
+    }
+
+    if (!req.user.latitude || !req.user.longitude) {
+      return res.status(STATUS_CODES.BAD_REQUEST)
+        .send(ERROR_MESSAGES.CABS.NEARBY.NO_REFERENCE)
+    }
+
+    req.user.getNearbyCabs(ignoreBooked, numberOfSeats).then(cabs => {
+      res.send(cabs);
+    }).catch(err => {
+      console.log(err);
+      res.status(STATUS_CODES.BAD_REQUEST)
+        .send(err.message || STATUS_MESSAGES.BAD_REQUEST);
+    });
   });
 
   return router

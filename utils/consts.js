@@ -10,7 +10,7 @@ module.exports = {
     },
     ERROR_MESSAGES: {
         AUTH: "Invalid auth token",
-        LAT_LONG: 'latitude and longitude must be numeric.',
+        LAT_LONG: 'latitude and longitude must be provided and must be numeric.',
         SIGN_UP: {
             PHONE_MISSING: 'Phone number not provided.',
             NAME_MISSING: 'Name not provided',
