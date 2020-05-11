@@ -7,11 +7,8 @@ const CONSTS = require('./utils/consts');
 const {ONE_USER_DATA} = require('./utils/testUtils/data');
 const {pick} = require('lodash');
 const {server, dbConnection} = require('./bin/www');
-
-global.cache = require('./utils/cache');
-global.line = '\n' + '-'.repeat(40) + '\n';
-global.server = server;
-global.dbConnection = dbConnection;
+const cache = require('./utils/cache');
+const line = '\n' + '-'.repeat(40) + '\n';
 
 let BASE_URL = 'http://localhost:' + process.env.port || 3000;
 
