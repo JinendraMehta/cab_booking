@@ -15,7 +15,7 @@ module.exports = (Users) => {
 
       next();
     }).catch((e) => {
-        res.status(STATUS_CODES.UNAUTHORIZED)
+        return res.status(STATUS_CODES.UNAUTHORIZED)
           .send(ERROR_MESSAGES.AUTH)
       }
     );

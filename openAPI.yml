@@ -102,29 +102,66 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    cab:
+                type: object
+                properties:
+                  pagination:
+                    type: object
+                    properties:
+                      totalResults:
+                        type: number
+                      next:
+                        type: string
+                      previous:
+                        type: string
+                      last:
+                        type: string
+                      first:
+                        type: string
+                      current:
+                        type: string
+                  data:
+                    type: array
+                    items:
                       type: object
                       properties:
-                        status:
-                          type: string
-                        driver_id:
+                        cab:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                            driver_id:
+                              type: number
+                            number_plate:
+                              type: string
+                            number_of_seats:
+                              type: number
+                            longitude:
+                              type: string
+                            latitude:
+                              type: string
+                            id:
+                              type: number
+                        distance:
                           type: number
-                        number_plate:
-                          type: string
-                        number_of_seats:
-                          type: number
-                        longitude:
-                          type: string
-                        latitude:
-                          type: string
-                        id:
-                          type: number
-                    distance:
-                      type: number
+              examples:
+                example:
+                  value:
+                    pagination:
+                      totalResults: 8
+                      current: 'http://localhost:3000/cabs/near-by?page=8&ignore_booked=true&limit=1'
+                      first: 'http://localhost:3000/cabs/near-by?page=1&ignore_booked=true&limit=1'
+                      last: 'http://localhost:3000/cabs/near-by?page=8&ignore_booked=true&limit=1'
+                      previous: 'http://localhost:3000/cabs/near-by?page=7&ignore_booked=true&limit=1'
+                    data:
+                      - cab:
+                          status: AVAILABLE
+                          driver_id: 41
+                          number_of_seats: 2
+                          number_plate: HYEVLCTY
+                          longitude: '-74.0076'
+                          latitude: '40.7404'
+                          id: 81
+                        distance: 1490.4644299708539
         '400':
           description: Current location not set
       operationId: get-user-nearByCabs
@@ -141,6 +178,14 @@ paths:
             type: number
           in: query
           name: number_of_seats
+        - schema:
+            type: number
+          in: query
+          name: page
+        - schema:
+            type: number
+          in: query
+          name: limit
       description: get near by cabs
     parameters: []
   /cabs/book:
@@ -213,6 +258,14 @@ paths:
             type: string
           in: header
           name: Authorization
+        - schema:
+            type: number
+          in: query
+          name: page
+        - schema:
+            type: number
+          in: query
+          name: limit
       description: get bookings
       responses:
         '200':
@@ -220,52 +273,76 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                    pickup_latitude:
-                      type: string
-                    pickup_longitude:
-                      type: string
-                    destination_latitude:
-                      type: string
-                    destination_longitude:
-                      type: string
-                    user_id:
-                      type: number
-                    fare:
-                      type: string
-                    number_of_passengers:
-                      type: number
-                    status:
-                      type: string
-                    commute_status:
-                      type: string
-                    cab_id:
-                      type: string
-                    created_at:
-                      type: string
-                    updated_at:
-                      type: string
+                type: object
+                properties:
+                  pagination:
+                    type: object
+                    properties:
+                      totalResults:
+                        type: number
+                      current:
+                        type: string
+                      first:
+                        type: string
+                      last:
+                        type: string
+                      previous:
+                        type: string
+                      next:
+                        type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        pickup_latitude:
+                          type: string
+                        pickup_longitude:
+                          type: string
+                        destination_latitude:
+                          type: string
+                        destination_longitude:
+                          type: string
+                        user_id:
+                          type: number
+                        fare:
+                          type: string
+                        number_of_passengers:
+                          type: number
+                        status:
+                          type: string
+                        commute_status:
+                          type: string
+                        cab_id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
               examples:
                 example:
                   value:
-                    - id: 1
-                      pickup_latitude: '40.7271'
-                      pickup_longitude: '-74.0054'
-                      destination_latitude: '40.7271'
-                      destination_longitude: '-72.0054'
-                      user_id: 2
-                      fare: 337059
-                      number_of_passengers: 2
-                      status: CONFIRMED
-                      commute_status: NOT_STARTED
-                      cab_id: 81
-                      created_at: '2020-05-07T15:58:55.000Z'
-                      updated_at: null
+                    pagination:
+                      totalResults: 1
+                      current: 'http://localhost:3000/users/current/bookings?page=1&limit=10'
+                      first: 'http://localhost:3000/users/current/bookings?page=1&limit=10'
+                      last: 'http://localhost:3000/users/current/bookings?page=1&limit=10'
+                    data:
+                      - id: 1
+                        pickup_latitude: '40.7271'
+                        pickup_longitude: '-74.0054'
+                        destination_latitude: '40.7271'
+                        destination_longitude: '-72.0054'
+                        user_id: 2
+                        fare: 337059
+                        number_of_passengers: 2
+                        status: CONFIRMED
+                        commute_status: NOT_STARTED
+                        cab_id: 78
+                        created_at: '2020-05-11T15:08:49.000Z'
+                        updated_at: null
     parameters: []
   /users/current/location:
     post:

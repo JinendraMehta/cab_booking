@@ -3,6 +3,7 @@ const router = express.Router();
 const {ERROR_MESSAGES, SUCCESS_MESSAGES, STATUS_CODES, STATUS_MESSAGES} = require('../utils/consts');
 const rateLimitLogin = require('../middleware/rateLimiter')('login');
 const rateLimitSignUp = require('../middleware/rateLimiter')('sign up');
+const paginate = require('../middleware/paginate');
 
 module.exports = (dbConnection) => {
   const Users = require('../db/models/3_users')(dbConnection);
@@ -14,14 +15,14 @@ module.exports = (dbConnection) => {
     let user = new Users(email, password, name, phone);
     if (user.inValid) {
       let err = user;
-      res.status(STATUS_CODES.BAD_REQUEST)
+      return res.status(STATUS_CODES.BAD_REQUEST)
         .send(err ? err.message ? err.message : STATUS_MESSAGES.BAD_REQUEST : STATUS_MESSAGES.BAD_REQUEST);
     } else {
       user.saveNew().then(() => {
-        res.status(STATUS_CODES.CREATED)
+        return res.status(STATUS_CODES.CREATED)
           .send(SUCCESS_MESSAGES.SIGN_UP.SUCCESS);
       }).catch(err => {
-        res.status(STATUS_CODES.BAD_REQUEST)
+        return res.status(STATUS_CODES.BAD_REQUEST)
           .send(err ? err.message ? err.message : STATUS_MESSAGES.BAD_REQUEST : STATUS_MESSAGES.BAD_REQUEST);
       })
     }
@@ -32,19 +33,17 @@ module.exports = (dbConnection) => {
 
     Users.findByCredentials(email, password).then((user) => {
       return user.generateAuthToken().then((token) => {
-        res.header('Authorization', token).status(STATUS_CODES.OK)
+        return res.header('Authorization', token).status(STATUS_CODES.OK)
           .send(SUCCESS_MESSAGES.LOGIN.SUCCESS);
       });
     }).catch((err) => {
       switch (err.message) {
         case ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS:
-          res.status(STATUS_CODES.UNAUTHORIZED).send(ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS);
-          break;
+          return res.status(STATUS_CODES.UNAUTHORIZED).send(ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS);
         case ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS:
-          res.status(STATUS_CODES.BAD_REQUEST).send(ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS);
-          break;
+          return res.status(STATUS_CODES.BAD_REQUEST).send(ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS);
         default:
-          res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
+          return res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
       }
     });
   });
@@ -59,28 +58,28 @@ module.exports = (dbConnection) => {
     req.user.longitude = longitude;
 
     req.user.save(['latitude','longitude']).then(() => {
-      res.status(STATUS_CODES.OK)
+      return res.status(STATUS_CODES.OK)
         .send(STATUS_MESSAGES.OK);
     }).catch(err => {
-      res.status(STATUS_CODES.BAD_REQUEST)
+      return res.status(STATUS_CODES.BAD_REQUEST)
         .send(STATUS_MESSAGES.BAD_REQUEST);
     })
   });
 
-  router.get('/current/bookings', authenticate, (req, res) => {
+  router.get('/current/bookings', authenticate, (req, res, next) => {
     req.user.getBookings().then(bookings => {
-      res.status(STATUS_CODES.OK)
-        .send(bookings)
+      req.rawResults = bookings;
+      next();
     }).catch(e => {
-      res.status(STATUS_CODES.BAD_REQUEST).send(e.message || STATUS_MESSAGES.BAD_REQUEST);
+     return res.status(STATUS_CODES.BAD_REQUEST).send(e.message || STATUS_MESSAGES.BAD_REQUEST);
     });
-  });
+  },paginate);
 
   router.delete('/logout', authenticate, (req, res) => {
     req.user.removeToken(req.token).then((doc) => {
       res.status(STATUS_CODES.OK).send(SUCCESS_MESSAGES.LOGOUT.SUCCESS);
     }).catch((e) => {
-      res.status(STATUS_CODES.UNAUTHORIZED)
+      return res.status(STATUS_CODES.UNAUTHORIZED)
         .send(e.message || STATUS_MESSAGES.UNAUTHORIZED);
     });
   });

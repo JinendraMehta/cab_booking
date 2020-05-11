@@ -9,6 +9,7 @@ const {pick} = require('lodash');
 const {server, dbConnection} = require('./bin/www');
 const cache = require('./utils/cache');
 const line = '\n' + '-'.repeat(40) + '\n';
+const URL = require('url-parse');
 
 let BASE_URL = 'http://localhost:' + process.env.port || 3000;
 
@@ -91,16 +92,16 @@ describe.each([
 });
 
 describe(line + 'Cabs before current location' + line, () => {
-  let URL = `${BASE_URL}/cabs/near-by`;
+  let url = `${BASE_URL}/cabs/near-by`;
   it(`returns ${CONSTS.ERROR_MESSAGES.AUTH}`, () => {
-    return axios.get(URL).catch(({response}) => {
+    return axios.get(url).catch(({response}) => {
       expect(response.data).toBe(CONSTS.ERROR_MESSAGES.AUTH);
     })
   });
 
   it(`returns ${CONSTS.ERROR_MESSAGES.CABS.NEARBY.NO_REFERENCE}`, (done) => {
     cache.getAsync('auth_token').then(token => {
-      axios.get(URL, {
+      axios.get(url, {
         headers: {
           "Authorization": token
         }
@@ -113,10 +114,10 @@ describe(line + 'Cabs before current location' + line, () => {
 });
 
 describe(line + 'Current Location' + line, () => {
-  let URL = `${BASE_URL}/users/current/location`;
+  let url = `${BASE_URL}/users/current/location`;
   let token;
   it(`returns ${CONSTS.ERROR_MESSAGES.AUTH}`, () => {
-    return axios.post(URL).catch(({response}) => {
+    return axios.post(url).catch(({response}) => {
       expect(response.data).toBe(CONSTS.ERROR_MESSAGES.AUTH);
     })
   });
@@ -124,7 +125,7 @@ describe(line + 'Current Location' + line, () => {
   it(`returns ${CONSTS.ERROR_MESSAGES.LAT_LONG}`, () => {
     return cache.getAsync('auth_token').then(_token => {
       token = _token;
-      return axios.post(URL, {latitude: 40.7271}, {
+      return axios.post(url, {latitude: 40.7271}, {
         headers: {
           'Authorization': token
         }
@@ -135,7 +136,7 @@ describe(line + 'Current Location' + line, () => {
   })
 
   it(`returns ${CONSTS.STATUS_MESSAGES.OK}`, () => {
-    return axios.post(URL, {
+    return axios.post(url, {
       "latitude": 40.7271,
       "longitude": -74.0054
     }, {
@@ -150,32 +151,70 @@ describe(line + 'Current Location' + line, () => {
 });
 
 
-describe(line + 'Cabs after current location' + line, () => {
-  let URL = `${BASE_URL}/cabs/near-by`;
+describe(line + 'Nearby cabs after current location' + line, () => {
+  let url = `${BASE_URL}/cabs/near-by`;
   let token;
+  let lastPage;
+  let totalResults;
 
-  it(`returns Near by cabs`, () => {
+  it(`returns first page`, () => {
     return cache.getAsync('auth_token').then(_token => {
       token = _token;
-      return axios.get(URL, {
+      return axios.get(url, {
         headers: {
           "Authorization": token
         }
       }).then(({data}) => {
-        expect(data.length).toBeTruthy()
+        expect(data.data.length).toBeTruthy();
+        expect(data.pagination).toBeDefined();
+        expect(data.pagination.current).toBeDefined();
+        expect(data.pagination.last).toBeDefined();
+        expect(data.pagination.previous).toBeUndefined();
+        expect(data.pagination.totalResults).toBeDefined();
+        totalResults = data.pagination.totalResults;
+
+        let pageNumber = parseInt(new URL(data.pagination.current, true).query['page']);
+        expect(pageNumber).toBe(1);
+        lastPage = data.pagination.last;
       })
     });
   });
 
-  it(`returns Near by available cabs`, () => {
-    return axios.get(URL, {
+  it('returns Bad Request',() => {
+    return axios.get(url, {
+      headers: {
+        "Authorization": token
+      },
+      params: {
+        page: 'random'
+      }
+    }).catch(({response}) => {
+      expect(response.data).toBe(CONSTS.STATUS_MESSAGES.BAD_REQUEST);
+    })
+  })
+
+  it(`returns last page`, () => {
+    return axios.get(lastPage, {
+      headers: {
+        "Authorization": token
+      }
+    }).then(({data}) => {
+      let expectedCount = totalResults % 10 || 10;
+      expect(data.data.length).toBe(expectedCount);
+      expect(data.pagination.next).toBeUndefined();
+      expect(data.pagination.current).toBe(lastPage);
+    })
+  });
+
+  it(`returns Available cabs`, () => {
+    return axios.get(url, {
       headers: {
         "Authorization": token
       },
       params: {
         ignore_booked: true
       }
-    }).then(({data}) => {
+    }).then(({data: {data}}) => {
       expect(data.every(({cab}) => cab.status === CONSTS.CAB_STATUS.AVAILABLE)).toBe(true)
     })
   });
@@ -189,7 +228,8 @@ describe(line + 'Bookings before creating one' + line, () => {
           "Authorization": token
         }
       }).then(({data}) => {
-        expect(data.length).toBe(0)
+        expect(data.pagination).toBeDefined();
+        expect(data.data.length).toBe(0)
       })
     });
   });
@@ -197,7 +237,7 @@ describe(line + 'Bookings before creating one' + line, () => {
 
 describe(line + 'Creating Booking' + line, () => {
   let token;
-  let URL = `${BASE_URL}/cabs/book`;
+  let url = `${BASE_URL}/cabs/book`;
   let bookingData;
 
   it(`returns ${CONSTS.ERROR_MESSAGES.CABS.NO_CABS}`, () => {
@@ -210,7 +250,7 @@ describe(line + 'Creating Booking' + line, () => {
         params: {
           ignore_booked: true
         }
-      }).then(({data}) => {
+      }).then(({data: {data}}) => {
         let cab = data[0].cab;
         let numberOfPassengers = cab['number_of_seats'] + 1;
         bookingData = {
@@ -226,7 +266,7 @@ describe(line + 'Creating Booking' + line, () => {
           "numberOfPassengers": numberOfPassengers
         }
 
-        return axios.post(URL, bookingData, {
+        return axios.post(url, bookingData, {
           headers: {
             Authorization: token
           }
@@ -238,7 +278,7 @@ describe(line + 'Creating Booking' + line, () => {
   });
   it(`returns ${CONSTS.SUCCESS_MESSAGES.BOOKING.CONFIRMED}`, () => {
     bookingData.numberOfPassengers--;
-    return axios.post(URL, bookingData, {
+    return axios.post(url, bookingData, {
       headers: {
         Authorization: token
       }
@@ -249,14 +289,14 @@ describe(line + 'Creating Booking' + line, () => {
 
 })
 
-describe(line + 'Bookings before after one' + line, () => {
+describe(line + 'Bookings after creating one' + line, () => {
   it(`returns Single booking`, () => {
     return cache.getAsync('auth_token').then(token => {
       return axios.get(`${BASE_URL}/users/current/bookings`, {
         headers: {
           "Authorization": token
         }
-      }).then(({data}) => {
+      }).then(({data: {data}}) => {
         expect(data.length).toBe(1)
       })
     });
@@ -267,7 +307,7 @@ describe(line + 'Bookings before after one' + line, () => {
 afterAll((done) => {
   cache.keysAsync(`${cache.prefix}*`).then(keys => {
     if (keys.length) {
-      let unprefixedKeys = keys.map(key => key.replace(new RegExp(`^${cache.prefix}`),''))
+      let unprefixedKeys = keys.map(key => key.replace(new RegExp(`^${cache.prefix}`), ''))
       return cache.delAsync(unprefixedKeys);
     }
   }).then((res) => {

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const {
   ERROR_MESSAGES,
   SUCCESS_MESSAGES,
@@ -10,6 +11,7 @@ const {
   COMMUTE_STATUS
 } = require('../utils/consts');
 const LatLon = require("../utils/LatLon/latlon-spherical");
+const paginate = require('../middleware/paginate');
 
 module.exports = (dbConnection) => {
   const Users = require('../db/models/3_users')(dbConnection);
@@ -27,7 +29,7 @@ module.exports = (dbConnection) => {
       isNaN(parseFloat(destination.longitude))
     ) {
 
-      res.status(STATUS_CODES.BAD_REQUEST)
+      return res.status(STATUS_CODES.BAD_REQUEST)
         .send(ERROR_MESSAGES.LAT_LONG);
     } else {
       Cabs.findByAvailabilityOrSeatsOrID(true, numberOfPassengers, cabID)
@@ -61,7 +63,7 @@ module.exports = (dbConnection) => {
                 cab_id: cabID
               }
             ).then(bookingID => {
-              res.status(STATUS_CODES.OK).send({
+              return res.status(STATUS_CODES.OK).send({
                 message: SUCCESS_MESSAGES.BOOKING.CONFIRMED,
                 bookingID: bookingID,
               })
@@ -71,14 +73,12 @@ module.exports = (dbConnection) => {
         })
         .catch(err => {
           console.log(err);
-          res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
+          return res.status(STATUS_CODES.BAD_REQUEST).send(err.message || STATUS_MESSAGES.BAD_REQUEST);
         })
     }
-
-
   });
 
-  router.get('/near-by', authenticate, (req, res) => {
+  router.get('/near-by', authenticate, (req, res, next) => {
     let {ignore_booked, number_of_seats} = req.query;
     let numberOfSeats = parseInt(number_of_seats);
     let ignoreBooked = ignore_booked === 'true';
@@ -94,13 +94,14 @@ module.exports = (dbConnection) => {
     }
 
     req.user.getNearbyCabs(ignoreBooked, numberOfSeats).then(cabs => {
-      res.send(cabs);
+      req.rawResults = cabs;
+      next();
     }).catch(err => {
       console.log(err);
-      res.status(STATUS_CODES.BAD_REQUEST)
+      return res.status(STATUS_CODES.BAD_REQUEST)
         .send(err.message || STATUS_MESSAGES.BAD_REQUEST);
     });
-  });
+  }, paginate);
 
   return router
 };
