@@ -1,5 +1,4 @@
-;
-const {STATUS_MESSAGES, STATUS_CODES} = require('../utils/consts');
+const { STATUS_CODES, ERROR_MESSAGES} = require('../utils/consts');
 
 module.exports = (Users) => {
   return function (req, res, next) {
@@ -8,7 +7,7 @@ module.exports = (Users) => {
     Users.findByToken(token).then((user) => {
       if (!user) {
         return res.status(STATUS_CODES.UNAUTHORIZED)
-          .send(STATUS_MESSAGES.UNAUTHORIZED);
+          .send(ERROR_MESSAGES.AUTH);
       }
 
       req.user = user;
@@ -16,9 +15,8 @@ module.exports = (Users) => {
 
       next();
     }).catch((e) => {
-      console.log(e)
         res.status(STATUS_CODES.UNAUTHORIZED)
-          .send(STATUS_MESSAGES.UNAUTHORIZED)
+          .send(ERROR_MESSAGES.AUTH)
       }
     );
   }

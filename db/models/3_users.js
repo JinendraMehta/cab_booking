@@ -81,7 +81,7 @@ module.exports = (dbConnection) => {
             return rows;
           })
       } else {
-        return Promise.resolve(0);
+        return Promise.resolve([]);
       }
     }
 
@@ -92,8 +92,8 @@ module.exports = (dbConnection) => {
       else if (!isEmail(email))
         errorMessage += ERROR_MESSAGES.SIGN_UP.INVALID_EMAIL + '\n';
 
-      if(!password)
-        errorMessage += ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING
+      if (!password)
+        errorMessage += ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING;
 
       if (errorMessage) {
         return Promise.reject({message: errorMessage});
@@ -124,7 +124,6 @@ module.exports = (dbConnection) => {
       try {
         decoded = jwt.verify(token, "$ecret$Alt#@");
       } catch (e) {
-        console.log(e)
         return Promise.reject({message: ERROR_MESSAGES.AUTH});
       }
 
@@ -220,7 +219,7 @@ module.exports = (dbConnection) => {
 
         return Promise.resolve(nearbyCabs);
       }).catch(err => {
-        return Promise.reject(err.message);
+        return Promise.reject(err);
       })
     };
 
@@ -261,7 +260,7 @@ module.exports = (dbConnection) => {
           status,
           commute_status,
         ]).then(([details]) => {
-          return details.insertId;
+        return details.insertId;
       })
     };
 

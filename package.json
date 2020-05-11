@@ -2,8 +2,10 @@
   "name": "cab_booking",
   "version": "1.0.0",
   "description": "API for cab booking service",
-  "main": "app.js",
+  "main": "./bin/www",
   "scripts": {
+    "setup": "bash setup-local.sh",
+    "test": "bash setup-test.sh",
     "start": "node ./bin/www"
   },
   "keywords": [],
@@ -12,6 +14,7 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "jsonwebtoken": "^8.5.1",
@@ -20,6 +23,9 @@
     "validator": "^13.0.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "axios": "^0.19.2",
+    "jest": "^26.0.1",
+    "lodash": "^4.17.15",
+    "redis": "^3.0.2"
   }
 }

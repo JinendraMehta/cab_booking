@@ -22,4 +22,10 @@ SOURCE setup-tables.sql
 ";
 echo ..Done
 
-npm start
+jest --runInBand
+
+echo Dropping ${NODE_ENV} database..
+mysql -u$DB_USER -h$DB_HOST -e "
+DROP DATABASE $DB;
+";
+echo ..Dropped

@@ -36,7 +36,6 @@ module.exports = (dbConnection) => {
           .send(SUCCESS_MESSAGES.LOGIN.SUCCESS);
       });
     }).catch((err) => {
-      console.log(err);
       switch (err.message) {
         case ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS:
           res.status(STATUS_CODES.UNAUTHORIZED).send(ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS);
@@ -63,7 +62,6 @@ module.exports = (dbConnection) => {
       res.status(STATUS_CODES.OK)
         .send(STATUS_MESSAGES.OK);
     }).catch(err => {
-      console.log(err)
       res.status(STATUS_CODES.BAD_REQUEST)
         .send(STATUS_MESSAGES.BAD_REQUEST);
     })
