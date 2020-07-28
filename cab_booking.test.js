@@ -4,14 +4,14 @@
 
 const axios = require('axios/index');
 const CONSTS = require('./utils/consts');
-const {ONE_USER_DATA} = require('./utils/testUtils/data');
-const {pick} = require('lodash');
-const {server, dbConnection} = require('./bin/www');
+const { ONE_USER_DATA } = require('./utils/testUtils/data');
+const { pick } = require('lodash');
+const { server, dbConnection } = require('./bin/www');
 const cache = require('./utils/cache');
 const line = '\n' + '-'.repeat(40) + '\n';
 const URL = require('url-parse');
 
-let BASE_URL = 'http://localhost:' + process.env.port || 3000;
+let BASE_URL = 'http://localhost:' + (process.env.PORT || 3000);
 
 beforeAll(() => {
   return new Promise((resolve) => {
@@ -28,9 +28,9 @@ beforeAll(() => {
 describe.each([
   [
     {}, CONSTS.ERROR_MESSAGES.SIGN_UP.EMAIL_MISSING + '\n'
-  + CONSTS.ERROR_MESSAGES.SIGN_UP.PHONE_MISSING + '\n'
-  + CONSTS.ERROR_MESSAGES.SIGN_UP.NAME_MISSING + '\n'
-  + CONSTS.ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING + '\n'
+    + CONSTS.ERROR_MESSAGES.SIGN_UP.PHONE_MISSING + '\n'
+    + CONSTS.ERROR_MESSAGES.SIGN_UP.NAME_MISSING + '\n'
+    + CONSTS.ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING + '\n'
   ],
   [
     ONE_USER_DATA, CONSTS.SUCCESS_MESSAGES.SIGN_UP.SUCCESS
@@ -41,11 +41,11 @@ describe.each([
 ])(line + 'Sign up' + line, (data, expected) => {
   it(`returns ${expected}`, (done) => {
 
-    axios.post(`${BASE_URL}/users/sign-up`, data).then(({data}) => {
+    axios.post(`${BASE_URL}/users/sign-up`, data).then(({ data }) => {
       expect(data).toBe(expected);
       done();
 
-    }).catch(({response}) => {
+    }).catch(({ response }) => {
       expect(response.data).toBe(expected);
       done();
     })
@@ -55,10 +55,10 @@ describe.each([
 describe.each([
   [
     {}, CONSTS.ERROR_MESSAGES.SIGN_UP.EMAIL_MISSING + '\n'
-  + CONSTS.ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING
+    + CONSTS.ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING
   ],
   [
-    {email: 'random@mail.com', password: 'randomPassword'}, CONSTS.ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS
+    { email: 'random@mail.com', password: 'randomPassword' }, CONSTS.ERROR_MESSAGES.LOGIN.USER_NOT_EXISTS
   ],
   [
     pick(ONE_USER_DATA, ['email']), CONSTS.ERROR_MESSAGES.SIGN_UP.PASSWORD_MISSING
@@ -69,7 +69,7 @@ describe.each([
 ])(line + 'Login' + line, (data, expected) => {
   it(`returns ${expected}`, (done) => {
 
-    axios.post(`${BASE_URL}/users/login`, data).then(({data, headers}) => {
+    axios.post(`${BASE_URL}/users/login`, data).then(({ data, headers }) => {
       expect(data).toBe(expected);
 
       if (data === CONSTS.SUCCESS_MESSAGES.LOGIN.SUCCESS) {
@@ -94,7 +94,7 @@ describe.each([
 describe(line + 'Cabs before current location' + line, () => {
   let url = `${BASE_URL}/cabs/near-by`;
   it(`returns ${CONSTS.ERROR_MESSAGES.AUTH}`, () => {
-    return axios.get(url).catch(({response}) => {
+    return axios.get(url).catch(({ response }) => {
       expect(response.data).toBe(CONSTS.ERROR_MESSAGES.AUTH);
     })
   });
@@ -105,7 +105,7 @@ describe(line + 'Cabs before current location' + line, () => {
         headers: {
           "Authorization": token
         }
-      }).catch(({response, request}) => {
+      }).catch(({ response, request }) => {
         expect(response.data).toBe(CONSTS.ERROR_MESSAGES.CABS.NEARBY.NO_REFERENCE);
         done();
       })
@@ -117,7 +117,7 @@ describe(line + 'Current Location' + line, () => {
   let url = `${BASE_URL}/users/current/location`;
   let token;
   it(`returns ${CONSTS.ERROR_MESSAGES.AUTH}`, () => {
-    return axios.post(url).catch(({response}) => {
+    return axios.post(url).catch(({ response }) => {
       expect(response.data).toBe(CONSTS.ERROR_MESSAGES.AUTH);
     })
   });
@@ -125,11 +125,11 @@ describe(line + 'Current Location' + line, () => {
   it(`returns ${CONSTS.ERROR_MESSAGES.LAT_LONG}`, () => {
     return cache.getAsync('auth_token').then(_token => {
       token = _token;
-      return axios.post(url, {latitude: 40.7271}, {
+      return axios.post(url, { latitude: 40.7271 }, {
         headers: {
           'Authorization': token
         }
-      }).catch(({response}) => {
+      }).catch(({ response }) => {
         expect(response.data).toBe(CONSTS.ERROR_MESSAGES.LAT_LONG);
       })
     })
@@ -143,7 +143,7 @@ describe(line + 'Current Location' + line, () => {
       headers: {
         'Authorization': token
       }
-    }).catch(({response}) => {
+    }).catch(({ response }) => {
       expect(response.data).toBe(CONSTS.ERROR_MESSAGES.LAT_LONG);
     })
 
@@ -164,7 +164,7 @@ describe(line + 'Nearby cabs after current location' + line, () => {
         headers: {
           "Authorization": token
         }
-      }).then(({data}) => {
+      }).then(({ data }) => {
         expect(data.data.length).toBeTruthy();
         expect(data.pagination).toBeDefined();
         expect(data.pagination.current).toBeDefined();
@@ -180,7 +180,7 @@ describe(line + 'Nearby cabs after current location' + line, () => {
     });
   });
 
-  it('returns Bad Request',() => {
+  it('returns Bad Request', () => {
     return axios.get(url, {
       headers: {
         "Authorization": token
@@ -188,7 +188,7 @@ describe(line + 'Nearby cabs after current location' + line, () => {
       params: {
         page: 'random'
       }
-    }).catch(({response}) => {
+    }).catch(({ response }) => {
       expect(response.data).toBe(CONSTS.STATUS_MESSAGES.BAD_REQUEST);
     })
   })
@@ -198,7 +198,7 @@ describe(line + 'Nearby cabs after current location' + line, () => {
       headers: {
         "Authorization": token
       }
-    }).then(({data}) => {
+    }).then(({ data }) => {
       let expectedCount = totalResults % 10 || 10;
       expect(data.data.length).toBe(expectedCount);
       expect(data.pagination.next).toBeUndefined();
@@ -214,8 +214,8 @@ describe(line + 'Nearby cabs after current location' + line, () => {
       params: {
         ignore_booked: true
       }
-    }).then(({data: {data}}) => {
-      expect(data.every(({cab}) => cab.status === CONSTS.CAB_STATUS.AVAILABLE)).toBe(true)
+    }).then(({ data: { data } }) => {
+      expect(data.every(({ cab }) => cab.status === CONSTS.CAB_STATUS.AVAILABLE)).toBe(true)
     })
   });
 });
@@ -227,7 +227,7 @@ describe(line + 'Bookings before creating one' + line, () => {
         headers: {
           "Authorization": token
         }
-      }).then(({data}) => {
+      }).then(({ data }) => {
         expect(data.pagination).toBeDefined();
         expect(data.data.length).toBe(0)
       })
@@ -250,7 +250,7 @@ describe(line + 'Creating Booking' + line, () => {
         params: {
           ignore_booked: true
         }
-      }).then(({data: {data}}) => {
+      }).then(({ data: { data } }) => {
         let cab = data[0].cab;
         let numberOfPassengers = cab['number_of_seats'] + 1;
         bookingData = {
@@ -270,7 +270,7 @@ describe(line + 'Creating Booking' + line, () => {
           headers: {
             Authorization: token
           }
-        }).catch(({response}) => {
+        }).catch(({ response }) => {
           expect(response.data).toBe(CONSTS.ERROR_MESSAGES.CABS.NO_CABS)
         })
       })
@@ -282,7 +282,7 @@ describe(line + 'Creating Booking' + line, () => {
       headers: {
         Authorization: token
       }
-    }).then(({data}) => {
+    }).then(({ data }) => {
       expect(data.message).toBe(CONSTS.SUCCESS_MESSAGES.BOOKING.CONFIRMED)
     })
   })
@@ -296,7 +296,7 @@ describe(line + 'Bookings after creating one' + line, () => {
         headers: {
           "Authorization": token
         }
-      }).then(({data: {data}}) => {
+      }).then(({ data: { data } }) => {
         expect(data.length).toBe(1)
       })
     });
