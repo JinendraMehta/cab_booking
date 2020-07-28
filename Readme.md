@@ -1,3 +1,7 @@
+Software Dependecies:
+1. mysql
+2. redis (only for testing)
+
 Copy example.env to .env and set db config and port
 
 1. To Setup and start server (first time run); run`npm run setup`
