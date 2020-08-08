@@ -38,3 +38,6 @@ npm-debug.log
 
 #package-lock
 package-lock.json
+
+#env file
+.env

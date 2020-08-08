@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+    volumes:
+      - data:/var/lib/mysql
+  cab_booking_app:
+    # command: setup # uncomment for first setup
+    image: cab_booking
+    build: .
+    environment:
+      - DB_HOST
+      - DB_PASSWORD
+      - NODE_ENV
+      - PORT=8080
+      - DB_USER
+      - DB_NAME
+    depends_on:
+      - mysqldb
+    ports:
+      - ${PORT}:8080
+
+volumes:
+  data:

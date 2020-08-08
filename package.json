@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "bash setup-local.sh",
     "test": "bash setup-test.sh",
-    "start": "node ./bin/www"
+    "start": "bash setup-start.sh"
   },
   "keywords": [],
   "author": "Jinendra Mehta",

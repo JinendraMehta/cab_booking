@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mysqldb_test:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+    volumes: 
+      - test_data:var/lib/mysql
+  redis_test:
+    image: redis
+  cab_booking_app_test:
+    image: cab_booking
+    build:
+      context: .
+    command: test
+    environment:
+      - DB_HOST
+      - DB_PASSWORD
+      - NODE_ENV=test
+      - PORT=8080
+      - DB_USER
+      - DB_NAME
+      - REDIS_HOST
+    depends_on:
+      - mysqldb_test
+      - redis_test
+
+volumes:
+  test_data:
